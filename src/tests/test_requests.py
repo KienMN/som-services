@@ -6,7 +6,7 @@ from sklearn.datasets import load_iris
 
 @pytest.mark.filterwarnings("ignore:DeprecationWarning")
 def test_create():
-  base_url = 'http://127.0.0.1:5000/api'
+  base_url = 'http://127.0.0.1:6789/api'
   model_id = 'test_01'
   body = {
     'model_id': model_id,
@@ -23,7 +23,7 @@ def test_create():
 
 @pytest.mark.filterwarnings("ignore:DeprecationWarning")
 def test_train():
-  base_url = 'http://127.0.0.1:5000/api'
+  base_url = 'http://127.0.0.1:6789/api'
   model_id = 'test_01'
   X, y = load_iris(return_X_y=True)
   body = {
@@ -45,9 +45,9 @@ def test_train():
 
 @pytest.mark.filterwarnings("ignore:DeprecationWarning")
 def test_predict():
-  base_url = 'http://127.0.0.1:5000/api'
+  base_url = 'http://127.0.0.1:6789/api'
   model_id = 'test_01'
-  X, y = load_iris(return_X_y=True)
+  X, _ = load_iris(return_X_y=True)
   body = {
     'model_id': model_id,
     #'features': [[1, 1, 2], [2, 1, 3], [1, 2, 3], [1, 2, 2]]

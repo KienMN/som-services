@@ -64,11 +64,7 @@ def get_model(model_id):
         n_cols = model._n_cols
         n_features = model._competitive_layer_weights[0].shape[0]
         
-        distribution_map_weights = []
-        distribution_map_labels = model._nodes_label.reshape(n_rows, n_cols)
-        #print(model._competitive_layer_weights)
         inversed_competitive_layer_weights = scaler.inverse_transform(model._competitive_layer_weights)
-        #print(inversed_competitive_layer_weights)
         scaled_competitive_layer_weights = inversed_competitive_layer_weights / np.amax(inversed_competitive_layer_weights, axis = 0)
 
         tmp_label = model._nodes_label.copy().reshape(n_rows, n_cols)
@@ -76,7 +72,9 @@ def get_model(model_id):
         distribution_maps_data = []
         visualization_map_data = []
 
-        headers = ['DT', 'GR', 'NPHI', 'RHOB']
+        # test headers, need to change in future
+        headers = ['feature_' + str(i) for i in range (100)]
+
         for i in range (n_features):
             tmp_weights = inversed_competitive_layer_weights[:, i].copy()
             tmp_weights[tmp_weights < 0] = 0
@@ -132,24 +130,19 @@ def get_model(model_id):
             row['cells'] = cells
             visualization_map_data.append(row)
 
-        for i in range (n_features):
-            tmp = inversed_competitive_layer_weights[:, i].copy()
-            tmp[tmp < 0] = 0
-            tmp = tmp.reshape(n_rows, n_cols)
-            distribution_map_weights.append(tmp)
-        distribution_map_weights = np.round(np.array(distribution_map_weights), 2)
+        # for i in range (n_features):
+        #     tmp = inversed_competitive_layer_weights[:, i].copy()
+        #     tmp[tmp < 0] = 0
+        #     tmp = tmp.reshape(n_rows, n_cols)
+        #     distribution_map_weights.append(tmp)
+        # distribution_map_weights = np.round(np.array(distribution_map_weights), 2)
 
         fitted_model = {
-            # "competitiveWeights": model._competitive_layer_weights.tolist(),
             "inversedCompetitiveWeights": inversed_competitive_layer_weights.tolist(),
             "nodesLabel": model._nodes_label.tolist(),
-            "distributionMapWeights": distribution_map_weights.tolist(),
-            # "distribution_map_labels": distribution_map_labels.tolist(),
         }
 
         success_message.add("fitted_model", fitted_model)
         success_message.add("distributionMaps", distribution_maps_data)
         success_message.add("visualizationMap", visualization_map_data)
-        # print(distribution_map_weights.shape)
-        # print(distribution_map_labels.shape)
         return success_message()

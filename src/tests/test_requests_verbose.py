@@ -2,7 +2,7 @@ import requests
 import json
 
 def test_create():
-  base_url = 'http://127.0.0.1:5000/api'
+  base_url = 'http://127.0.0.1:6789/api'
   model_id = 'test_01'
   body = {
     'model_id': model_id,
@@ -15,7 +15,7 @@ def test_create():
   print('Response:', res.json())
 
 def test_train():
-  base_url = 'http://127.0.0.1:5000/api'
+  base_url = 'http://127.0.0.1:6789/api'
   model_id = 'test_01'
   body = {
     'model_id': model_id,
@@ -31,7 +31,7 @@ def test_train():
   print('Response:', res.json())
 
 def test_predict():
-  base_url = 'http://127.0.0.1:5000/api'
+  base_url = 'http://127.0.0.1:6789/api'
   model_id = 'test_01'
   body = {
     'model_id': model_id,

@@ -210,15 +210,7 @@ paths:
         201:
           description: "Create som model success"
           schema:
-            type: "object"
-            required:
-            - message
-            - weights
-            properties:
-              message:
-                type: "string"
-              weights:
-                $ref: "#/definitions/Weights"
+            $ref: "#/definitions/CreateSuccess"
         default:
           description: "Unexpected error"
           schema:
@@ -237,10 +229,15 @@ paths:
           type: string
           required: true
       responses:
-        200:
+        201:
           description: "Get weights successfully"
           schema:
-            $ref: "#/definitions/Weights"
+            allOf:
+              - type: "object"
+                properties:
+                  message:
+                    type: "string"
+              - $ref: "#/definitions/Weights"
         default:
           description: "Unexpected error"
           schema:
@@ -287,10 +284,68 @@ definitions:
         type: "integer"
         
   Weights:
-    type: "array"
-    items:
-      type: "array"
-      items:
-        type: "number"
+    type: "object"
+    properties:
+      distributionMaps:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            header:
+              type: "string"
+            rows:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  cells:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        label:
+                          type: "integer"
+                        scaledWeight:
+                          type: "number"
+                        weight:
+                          type: "number"
+      visualizationMap:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            cells:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  features:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        header:
+                          type: "string"
+                        scaledWeight:
+                          type: "number"
+                        weight:
+                          type: "number"
+                  label:
+                    type: "string"
+      fitted_model:
+        type: "object"
+        properties:
+          inversedCompetitiveWeights:
+            type: "array"
+            items:
+              type: "array"
+              items:
+                type: "number"
+          nodesLabel:
+            type: "array"
+            items:
+              type: "integer"
+                
+
 
 
